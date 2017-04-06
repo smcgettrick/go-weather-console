@@ -13,6 +13,12 @@ import (
 
 const baseWeatherURL = "http://api.wunderground.com/api/"
 
+var configuration Configuration
+
+func init() {
+	configuration = LoadConfiguration()
+}
+
 func main() {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print("Enter zip code: ")
@@ -40,7 +46,6 @@ func validate(zipcode string) bool {
 }
 
 func getWeather(zipcode string) (*WeatherData, error) {
-	configuration := LoadConfiguration()
 	url := baseWeatherURL + configuration.AppID + "/geolookup/conditions/q/PA/" + zipcode + ".json"
 
 	res, err := http.Get(url)
